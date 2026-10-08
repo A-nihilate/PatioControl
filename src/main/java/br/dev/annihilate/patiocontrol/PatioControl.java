@@ -15,11 +15,10 @@ public class PatioControl {
 
     public static void main(String[] args) {
 
-
         List<Veiculo> patio = new ArrayList<>();
-        
-        String search ;
-        
+
+        String search;
+
         int status = -1;
         boolean active = true;
 
@@ -42,10 +41,10 @@ public class PatioControl {
                     break;
 
                 case 20:
-                    
+
                     search = tecladoTexto.nextLine();
-                    statusChange(patio,search,1);
-                    
+                    statusChange(patio, search, 1);
+
                     break;
 
                 case 21:
@@ -56,7 +55,7 @@ public class PatioControl {
                 case 30:
 
                     search = tecladoTexto.nextLine();
-                    statusChange(patio,search,0);
+                    statusChange(patio, search, 0);
 
                 case 31:
 
@@ -76,16 +75,30 @@ public class PatioControl {
     }
 
     public static void cadastro(List<Veiculo> lista) {
+        
+        
 
         while (true) {
+            
             Veiculo veiculoNovo = new Veiculo();
 
             System.out.println("Insira a PLACA / Vazio para Cancelar");
             veiculoNovo.placa = tecladoTexto.nextLine();
             if (veiculoNovo.placa.isBlank()) {
                 break;
+            } else {
+                boolean invalid = false;
+                for (Veiculo veiculo : lista) {
+                    if (veiculo.placa.equals(veiculoNovo.placa)) {
+                        System.out.println("Placa Invalida / Já Registrada");
+                        invalid = true;
+                        break;
+                    }
+                }
+                if (invalid){
+                    break;
+                }
             }
-
             System.out.println("Insira a MARCA");
             veiculoNovo.marca = tecladoTexto.nextLine();
 
@@ -119,16 +132,22 @@ public class PatioControl {
     }
 
     public static void statusChange(List<Veiculo> lista, String search, int operation) {
-        
+
         for (Veiculo veiculoAtual : lista) {
             if (search.equals(veiculoAtual.placa)) {
-                if (veiculoAtual.status == 0) {
-                    veiculoAtual.changeState();
+                if (veiculoAtual.status != operation) {
+                    if (veiculoAtual.status == 0) {
+                        System.out.println("Insira o nome do Motorista");
+                        veiculoAtual.motorista = tecladoTexto.nextLine();
+                        veiculoAtual.changeState();
+                    } else {
+                        veiculoAtual.motorista = "";
+                        veiculoAtual.changeState();
+                    }
+                    
                 } else {
-                    System.out.println("Veiculo ja esta em Linha");
+                    System.out.println("Veiculo ja esta em Linha/no patio");
                 }
-            } else {
-                System.out.println("Veiculo nao encontrado");
             }
         }
     }

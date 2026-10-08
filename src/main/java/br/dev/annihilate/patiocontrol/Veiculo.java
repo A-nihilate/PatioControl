@@ -27,7 +27,7 @@ public class Veiculo {
         if (this.status == 1) {
             status = 0;
         } else {
-            status = 0;
+            status = 1;
         }
     }
 
